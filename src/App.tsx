@@ -2,7 +2,7 @@ import { NavLink, Outlet } from "react-router-dom";
 
 const linkBase =
   "px-3.5 py-2 rounded text-white no-underline transition-colors";
-const linkClass = ({ isActive }) =>
+const linkClass = ({ isActive }: { isActive: boolean }) =>
   `${linkBase} ${isActive ? "bg-green-600" : "hover:bg-green-600/80"}`;
 
 export default function App() {

@@ -4,9 +4,9 @@ import L from "leaflet";
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import iconRetinaUrl from "leaflet/dist/images/marker-icon-2x.png";
 import shadowUrl from "leaflet/dist/images/marker-shadow.png";
-import { useSamples } from "../hooks/useSamples.js";
-import { filterSamples, uniqueValues } from "../lib/filters.js";
-import FilterField, { controlClass } from "../components/FilterField.jsx";
+import { useSamples } from "../hooks/useSamples";
+import { filterSamples, uniqueValues } from "../lib/filters";
+import FilterField, { controlClass } from "../components/FilterField";
 
 L.Marker.prototype.options.icon = L.icon({
   iconUrl,

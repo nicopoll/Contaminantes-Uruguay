@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from "./App.jsx";
-import Home from "./pages/Home.jsx";
-import MapPage from "./pages/MapPage.jsx";
-import TablePage from "./pages/TablePage.jsx";
+import App from "./App";
+import Home from "./pages/Home";
+import MapPage from "./pages/MapPage";
+import TablePage from "./pages/TablePage";
 import "./styles.css";
 import "leaflet/dist/leaflet.css";
 
@@ -20,7 +20,10 @@ const router = createBrowserRouter([
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+const root = document.getElementById("root");
+if (!root) throw new Error("Missing #root element");
+
+ReactDOM.createRoot(root).render(
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>

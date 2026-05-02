@@ -1,4 +1,11 @@
-export default function FilterField({ label, children }) {
+import type { ReactNode } from "react";
+
+interface FilterFieldProps {
+  label: string;
+  children: ReactNode;
+}
+
+export default function FilterField({ label, children }: FilterFieldProps) {
   return (
     <label className="flex flex-col gap-1 text-sm font-semibold">
       {label}

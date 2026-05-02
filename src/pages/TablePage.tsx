@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
-import { useSamples } from "../hooks/useSamples.js";
-import { filterSamples, uniqueValues } from "../lib/filters.js";
-import FilterField, { controlClass } from "../components/FilterField.jsx";
+import { useSamples } from "../hooks/useSamples";
+import { filterSamples, uniqueValues } from "../lib/filters";
+import FilterField, { controlClass } from "../components/FilterField";
+import type { Sample } from "../lib/types";
 
-const COLUMNS = [
+const COLUMNS: (keyof Sample)[] = [
   "Fecha",
   "Contaminante",
   "Tipo",
