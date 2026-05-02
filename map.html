@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet Map of Uruguay</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 600px; }
+        .filter { margin: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Map of Uruguay</h1>
+    <div class="filter">
+        <h3>Filter by:</h3>
+        <label><input type="checkbox" id="cities"> Cities</label><br>
+        <label><input type="checkbox" id="rivers"> Rivers</label><br>
+        <label><input type="checkbox" id="lakes"> Lakes</label><br>
+        <label><input type="checkbox" id="samples"> Contamination Samples</label><br>
+        <h3>Contaminants:</h3>
+        <select id="contaminants"><option value="all">All</option></select>
+        <h3>Date Range:</h3>
+        <input type="date" id="start-date"> to <input type="date" id="end-date">
+        <button id="apply-filters">Apply Filters</button>
+    </div>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map').setView([-33.0, -56.0], 6);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19
+        }).addTo(map);
+
+        const sampleDataUrl = 'path/to/your/data.json'; // Update with your JSON data file URL
+        fetch(sampleDataUrl)
+            .then(response => response.json())
+            .then(data => initializeMap(data));
+
+        function initializeMap(data) {
+            // Add features to map based on checkbox selections and data filters
+            // Implementation will go here
+        }
+
+        document.getElementById('apply-filters').addEventListener('click', () => {
+            // Filter logic will go here
+        });
+    </script>
+</body>
+</html>
