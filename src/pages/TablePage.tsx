@@ -13,9 +13,14 @@ const COLUMNS: (keyof Sample)[] = [
   "Dirección",
   "Analista",
   "Concentración (ppm)",
-  "Latitud",
-  "Longitud",
 ];
+
+type ColFilters = Record<keyof Sample, string>;
+
+const EMPTY_COL_FILTERS: ColFilters = COLUMNS.reduce((acc, c) => {
+  acc[c] = "";
+  return acc;
+}, {} as ColFilters);
 
 export default function TablePage() {
   const { samples, loading, error } = useSamples();
@@ -23,19 +28,33 @@ export default function TablePage() {
   const [sample, setSample] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [colFilters, setColFilters] = useState<ColFilters>(EMPTY_COL_FILTERS);
 
   const contaminants = useMemo(() => uniqueValues(samples, "Contaminante"), [samples]);
   const sampleIds = useMemo(() => uniqueValues(samples, "Muestra"), [samples]);
-  const rows = useMemo(
-    () => filterSamples(samples, { contaminant, sample, startDate, endDate }),
-    [samples, contaminant, sample, startDate, endDate]
-  );
+  const rows = useMemo(() => {
+    const base = filterSamples(samples, { contaminant, sample, startDate, endDate });
+    const active = COLUMNS.filter((c) => colFilters[c].trim() !== "");
+    if (active.length === 0) return base;
+    return base.filter((row) =>
+      active.every((c) =>
+        String(row[c] ?? "")
+          .toLowerCase()
+          .includes(colFilters[c].trim().toLowerCase())
+      )
+    );
+  }, [samples, contaminant, sample, startDate, endDate, colFilters]);
+
+  function setColFilter(col: keyof Sample, value: string) {
+    setColFilters((prev) => ({ ...prev, [col]: value }));
+  }
 
   function reset() {
     setContaminant("all");
     setSample("");
     setStartDate("");
     setEndDate("");
+    setColFilters(EMPTY_COL_FILTERS);
   }
 
   if (loading) return <p className="text-slate-500">Cargando…</p>;
@@ -85,6 +104,22 @@ export default function TablePage() {
                   className="border border-slate-200 bg-green-600 px-3 py-2.5 text-left font-semibold text-white"
                 >
                   {c}
+                </th>
+              ))}
+            </tr>
+            <tr>
+              {COLUMNS.map((c) => (
+                <th
+                  key={c}
+                  className="border border-slate-200 bg-slate-50 px-2 py-1.5"
+                >
+                  <input
+                    type="text"
+                    value={colFilters[c]}
+                    onChange={(e) => setColFilter(c, e.target.value)}
+                    placeholder="Filtrar…"
+                    className="w-full rounded border border-slate-300 bg-white px-2 py-1 text-xs font-normal text-slate-700 placeholder:text-slate-400 focus:border-green-600 focus:outline-none"
+                  />
                 </th>
               ))}
             </tr>
